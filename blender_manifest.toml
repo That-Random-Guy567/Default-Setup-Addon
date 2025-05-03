@@ -1,0 +1,12 @@
+schema_version = "1.0.0"
+id = "Default_Setup"
+version = "1.0.0"
+name = "Default Setup"
+tagline = "An addon to help setup your scene."
+maintainer = "That Random Blender Guy"
+type = "add-on"
+blender_version_min = "4.0.0"
+license = [
+  "SPDX:GPL-3.0-or-later",
+]
+tags = ["User Interface","3D View"]
