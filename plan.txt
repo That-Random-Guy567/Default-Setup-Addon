@@ -13,6 +13,7 @@ Default Setup
     - Output
         - output as 1440p
         - output as 1920x1080p (for tiktok/yt shorts)
+        - Output to Frames folder
         - output as OpenEXR (single channel)s
         - output as mp4 video
 
@@ -21,6 +22,8 @@ Default Setup
         - set files to relative path
         - purge unused data
 
+    # have theses areas on/off in preferences from boolean.
+    {
     - Physics
         - Cloth Simulations 
             - Add cloth simulations, collisions and clearing them
@@ -30,7 +33,8 @@ Default Setup
     - Object Constraints
         - "Track to" contraint added
             - funcionality will be improved later
-    
+    }
+
     - Miscellaneoous Functions
         - Toggling some specific overlays such as scene stats
         - Add a rainbow colour material
