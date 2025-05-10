@@ -1,17 +1,36 @@
 import bpy
 
+from .preference import Default_Setup_Addon_Preferences
+from .Operators.all_operators import all_operators
+from .Panels.all_panels import all_panels
+
+
+import bpy
+
+from .preference import Default_Setup_Addon_Preferences
+from .Operators.all_operators import all_operators
+from .Panels.all_panels import all_panels
+
 bl_info = {
+    # Basic addon info
     "name": "Default Setup Addon",
     "author": "That Random Blender Guy",
     "version": (1, 0, 0),
     "blender": (4, 0, 0),
-    "location": "3D Viewport > Sidebar > Default Setup Addon",
-    "description": "Changes Default Settings to a template",
+    "description": "An addon to help setup your scene with customizable preferences and default settings",
+    "location": "3D Viewport > Sidebar > Default Setup",
     "category": "Development",
+    
+    # Support info
+    "support": "TESTING",
+    "wiki_url": "https://github.com/That-Random-Guy567/Default-Setup-Addon",
+    "tracker_url": "https://github.com/That-Random-Guy567/Default-Setup-Addon/issues",
+    "doc_url": "https://github.com/That-Random-Guy567/Default-Setup-Addon/blob/main/readme.md",
+    
+    # Optional metadata
+    "warning": "This addon is currently in Development. Not all features have been implemented yet.",
+    "tags": {"User Interface", "3D View"}
 }
-
-from .Operators.all_operators import all_operators
-from .Panels.all_panels import all_panels
 
 class VIEW3D_PT_Default_Setup_Addon(bpy.types.Panel):
     bl_label = "Default Setup"
@@ -22,23 +41,25 @@ class VIEW3D_PT_Default_Setup_Addon(bpy.types.Panel):
 
     def draw(self, context):
         layout = self.layout
-        scene = context.scene
 
-classes = [
-    VIEW3D_PT_Default_Setup_Addon,
-]
+
+def get_classes():
+    """Get all classes that need to be registered/unregistered"""
+    base_classes = [
+        VIEW3D_PT_Default_Setup_Addon,
+        Default_Setup_Addon_Preferences,
+    ]
+    return (base_classes + all_operators + all_panels)
 
 def register():
-    for register_list in (classes, all_operators, all_panels):
-        for cls in register_list:
-            if hasattr(cls, "bl_rna"):  # avoid double-register
-                bpy.utils.register_class(cls)
+    for cls in get_classes():
+        bpy.utils.register_class(cls)
 
 def unregister():
-    for register_list in (reversed(classes), reversed(all_operators), reversed(all_panels)):
-        for cls in register_list:
-            if hasattr(cls, "bl_rna"):
-                bpy.utils.unregister_class(cls)
+    for cls in reversed(get_classes()):
+        bpy.utils.unregister_class(cls)
 
+""" Uncomment this if you want to run the script directly
 if __name__ == "__main__":
     register()
+"""

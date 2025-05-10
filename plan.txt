@@ -1,0 +1,38 @@
+# Plan for addon
+Have addon be customizable with Functions
+- save the custom features to a local file on disk
+- have output save to local dir in folder named "frames"
+
+Default Setup
+    - Render
+        - Render engine to cycles
+            - edits settings like denoiser
+        - Help with scene optimization
+            - changes the render settings for (hopefully) faster renders
+            
+    - Output
+        - output as 1440p
+        - output as 1920x1080p (for tiktok/yt shorts)
+        - output as OpenEXR (single channel)s
+        - output as mp4 video
+
+    - File Sharing
+        - pack resources
+        - set files to relative path
+        - purge unused data
+
+    - Physics
+        - Cloth Simulations 
+            - Add cloth simulations, collisions and clearing them
+        - Rigid Bodies
+            - Adding/removing them, altering collision objects
+
+    - Object Constraints
+        - "Track to" contraint added
+            - funcionality will be improved later
+    
+    - Miscellaneoous Functions
+        - Toggling some specific overlays such as scene stats
+        - Add a rainbow colour material
+        - Add rainbow colour ramp (single colour ramp)
+        - Fine tuned sky texture

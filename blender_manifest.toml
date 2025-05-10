@@ -10,3 +10,10 @@ license = [
   "SPDX:GPL-3.0-or-later",
 ]
 tags = ["User Interface","3D View"]
+
+documentation = "https://github.com/That-Random-Guy567/Default-Setup-Addon/blob/main/readme.md"
+repository = "https://github.com/That-Random-Guy567/Default-Setup-Addon.git"
+issues = "https://github.com/That-Random-Guy567/Default-Setup-Addon/issues"
+# website = "https://github.com/That-Random-Guy567/Default-Setup-Addon"
+
+warning = "This addon is currently in Devlopment. Not all features have been implemented yet."

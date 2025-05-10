@@ -10,8 +10,7 @@ You will instal this addon like any other one.
 4. Locate where u saved the main.py file
 5. Once located, select "Install from disk" button.
 
-If you need any help, join my discord server and ping me @thatrandomblenderguy.
-link: https://discord.gg/EcYCHNDf55
+If you need any help, join my [discord](https://discord.gg/EcYCHNDf55) server and ping me @thatrandomblenderguy.
 
 This addon includes common features that are quick to access like (subject to change base on version):
 
