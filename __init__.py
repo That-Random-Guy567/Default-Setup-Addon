@@ -2,14 +2,7 @@ import bpy
 
 from .preference import Default_Setup_Addon_Preferences
 from .Operators.all_operators import all_operators
-from .Panels.all_panels import all_panels
-
-
-import bpy
-
-from .preference import Default_Setup_Addon_Preferences
-from .Operators.all_operators import all_operators
-from .Panels.all_panels import all_panels
+from .Panels.all_panels import register_panels, unregister_panels
 
 bl_info = {
     # Basic addon info
@@ -49,17 +42,14 @@ def get_classes():
         VIEW3D_PT_Default_Setup_Addon,
         Default_Setup_Addon_Preferences,
     ]
-    return (base_classes + all_operators + all_panels)
+    return (base_classes + all_operators)
 
 def register():
     for cls in get_classes():
         bpy.utils.register_class(cls)
+    register_panels()
 
 def unregister():
+    unregister_panels()
     for cls in reversed(get_classes()):
         bpy.utils.unregister_class(cls)
-
-""" Uncomment this if you want to run the script directly
-if __name__ == "__main__":
-    register()
-"""

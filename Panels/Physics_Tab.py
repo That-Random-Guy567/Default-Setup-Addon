@@ -8,10 +8,32 @@ class VIEW3D_PT_Physics_Tab_Settings(bpy.types.Panel):
     bl_region_type = "UI"
     bl_parent_id = "VIEW3D_PT_Default_Setup_Addon"
     bl_options = {'DEFAULT_CLOSED'}
-    
+
+
+    @classmethod
+    def poll(cls, context):
+        # Only show panel if physics is enabled in preferences
+        prefs = context.preferences.addons["Default_Setup_Addon"].preferences
+        return prefs.enable_physics
+
     def draw(self, context):
         layout = self.layout
-        row = layout.row()   
+        prefs = context.preferences.addons["Default_Setup_Addon"].preferences
+
+        # Only show rigid body operators if enabled
+        if prefs.enable_rigid_body:
+            box = layout.box()
+            box.label(text="Rigid Body Tools")
+            box.operator("physics.active_rigid_body")
+            box.operator("physics.passive_rigid_body")
+            box.operator("physics.clear_rigid_body")
+
+        # Only show cloth operators if enabled
+        if prefs.enable_cloth:
+            box = layout.box()
+            box.label(text="Cloth Tools")
+            box.operator("physics.cloth_sims")
+            box.operator("physics.cloth_sims_clear")
 
 class VIEW3D_PT_Rigid_Bodies(bpy.types.Panel):
     """Rigid Bodies"""
@@ -33,6 +55,11 @@ class VIEW3D_PT_Rigid_Bodies(bpy.types.Panel):
         row = layout.row()
         row.operator("physics.clear_rigid_body", text="Clear Active Rigid Bodies", icon="CANCEL")
         layout.separator()
+
+    @classmethod
+    def poll(cls, context):
+        prefs = bpy.context.preferences.addons["Default_Setup_Addon"].preferences
+        return prefs.enable_physics and prefs.enable_rigid_body
         
 class VIEW3D_PT_Cloth_sims(bpy.types.Panel):
     """Cloth Simulations"""
@@ -55,4 +82,8 @@ class VIEW3D_PT_Cloth_sims(bpy.types.Panel):
         row = layout.row()
         row.operator("physics.clear_cloth_sims", text = "Clear Cloth Sim", icon = "CANCEL")
         row.operator("physics.clear_collision", text = "Clear Collisons", icon = "CANCEL")
-   
+
+    @classmethod
+    def poll(cls, context):
+        prefs = context.preferences.addons["Default_Setup_Addon"].preferences
+        return prefs.enable_physics and prefs.enable_cloth

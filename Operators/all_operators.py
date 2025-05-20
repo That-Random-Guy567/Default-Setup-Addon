@@ -6,10 +6,11 @@ from .Render_Optimize_Cycles import RENDER_OT_render_optimization
 from .World_SkyTex_Btn import WORLD_OT_sky_texture_button
 
 # ---------------- Output Settings ----------------
-from .Render_Resolution_1080p import RENDER_OT_change_resolution_1920x1080p
+from .Render_Resolution_1080p import RENDER_OT_change_resolution_1080x1920p
 from .Render_Resolution_1440p import RENDER_OT_change_resolution_1440p
 from .Output_Exr_Btn import OUTPUT_OT_exr_video_button
 from .Output_Mp4_Btn import OUTPUT_OT_mp4_video_button
+from .Output_Local_Dir import OUTPUT_OT_local_dir
 
 # ---------------- File Sharing ----------------
 from .Data_Purge_Unused import DATA_OT_purge_unused
@@ -44,10 +45,11 @@ all_operators = [
     RENDER_OT_render_optimization,
 
     # Output
-    RENDER_OT_change_resolution_1920x1080p,
+    RENDER_OT_change_resolution_1080x1920p,
     RENDER_OT_change_resolution_1440p,
     OUTPUT_OT_exr_video_button,
     OUTPUT_OT_mp4_video_button,
+    OUTPUT_OT_local_dir,
 
     # File Sharing
     DATA_OT_purge_unused,
