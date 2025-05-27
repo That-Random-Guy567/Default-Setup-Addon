@@ -13,6 +13,7 @@ bl_info = {
     "description": "An addon to help setup your scene with customizable preferences and default settings",
     "location": "3D Viewport > Sidebar > Default Setup",
     "category": "Development",
+    "id": "default_setup_addon",
     
     # Support info
     "support": "TESTING",
@@ -38,18 +39,41 @@ class VIEW3D_PT_Default_Setup_Addon(bpy.types.Panel):
 
 def get_classes():
     """Get all classes that need to be registered/unregistered"""
-    base_classes = [
-        VIEW3D_PT_Default_Setup_Addon,
+    classes = [
         Default_Setup_Addon_Preferences,
+        VIEW3D_PT_Default_Setup_Addon,
     ]
-    return (base_classes + all_operators)
+    return classes + all_operators
 
 def register():
-    for cls in get_classes():
-        bpy.utils.register_class(cls)
-    register_panels()
+    print("\nRegistering Default Setup Addon...")
+    try:
+        # Register classes first
+        for cls in get_classes():
+            print(f"- Registering: {cls.__name__}")
+            bpy.utils.register_class(cls)
+        
+        # Register panels after classes
+        register_panels()
+        print("✓ Registration complete!\n")
+    except Exception as e:
+        print(f"× Registration failed: {str(e)}\n")
+        raise  # Re-raise for Blender to catch
 
 def unregister():
-    unregister_panels()
-    for cls in reversed(get_classes()):
-        bpy.utils.unregister_class(cls)
+    print("\nUnregistering Default Setup Addon...")
+    try:
+        # Unregister panels first
+        unregister_panels()
+        
+        # Then unregister classes in reverse order
+        for cls in reversed(get_classes()):
+            print(f"- Unregistering: {cls.__name__}")
+            bpy.utils.unregister_class(cls)
+        print("✓ Unregistration complete!\n")
+    except Exception as e:
+        print(f"× Unregistration failed: {str(e)}\n")
+        raise  # Re-raise for Blender to catch
+
+if __name__ == "__main__":
+    register()

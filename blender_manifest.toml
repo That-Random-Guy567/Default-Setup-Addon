@@ -1,5 +1,5 @@
 schema_version = "1.0.0"
-id = "Default_Setup"
+id = "default_setup_addon" 
 version = "1.0.0"
 name = "Default Setup"
 tagline = "An addon to help setup your scene."

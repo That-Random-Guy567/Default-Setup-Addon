@@ -3,11 +3,22 @@ from bpy.props import BoolProperty, FloatProperty, IntProperty, StringProperty, 
 
             
 def update_panels(self, context):
+    print("\n=== Preferences Update Called ===")
+    print(f"Physics enabled: {self.enable_physics}")
+    print(f"Rigid Body enabled: {self.enable_rigid_body}")
+    print(f"Cloth enabled: {self.enable_cloth}")
+    
     from .Panels.all_panels import refresh_panel_list
     refresh_panel_list()
     
+    print("Forcing UI redraw...")
+    for area in context.screen.areas:
+        if area.type == 'VIEW_3D':
+            area.tag_redraw()
+    print("=== Update Complete ===\n")
+    
 class Default_Setup_Addon_Preferences(bpy.types.AddonPreferences):
-    bl_idname = __package__
+    bl_idname = "default_setup_addon"
 
     enable_physics: bpy.props.BoolProperty( #type: ignore
         name="Enable Physics Tab",
