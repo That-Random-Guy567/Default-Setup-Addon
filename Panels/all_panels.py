@@ -21,48 +21,32 @@ def get_panels():
     ]
     
     try:
-        # Get root package name (Default_Setup_Addon)
-        root_package = __package__.split('.')[0]
-        if root_package.startswith('bl_ext.vscode_development.'):
-            root_package = root_package.replace('bl_ext.vscode_development.', '')
+        # Try both possible package paths
+        try:
+            prefs = bpy.context.preferences.addons[__package__.split('.')[0]].preferences
+        except KeyError:
+            # Fallback for development path
+            prefs = bpy.context.preferences.addons["bl_ext.vscode_development." + __package__.split('.')[0]].preferences
+
+        print(f"Preferences loaded successfully:")
+        print(f"- Physics: {prefs.enable_physics}")
+        print(f"- Rigid Body: {prefs.enable_rigid_body}")
+        print(f"- Cloth: {prefs.enable_cloth}")
         
-        print(f"Looking for addon with ID: {root_package}")
-        
-        # Try both possible paths
-        for addon_id in [root_package, f"bl_ext.vscode_development.{root_package}"]:
-            try:
-                addon = bpy.context.preferences.addons.get(addon_id)
-                if addon and addon.preferences:
-                    prefs = addon.preferences
-                    print(f"Found addon preferences at: {addon_id}")
-                    
-                    print(f"Preferences loaded successfully:")
-                    print(f"- Physics: {prefs.enable_physics}")
-                    print(f"- Rigid Body: {prefs.enable_rigid_body}")
-                    print(f"- Cloth: {prefs.enable_cloth}")
-                    
-                    if prefs.enable_physics:
-                        print("Adding Physics panel")
-                        panels.append(VIEW3D_PT_Physics_Tab_Settings)
-                        
-                        if prefs.enable_rigid_body:
-                            print("Adding Rigid Body panel")
-                            panels.append(VIEW3D_PT_Rigid_Bodies)
-                            
-                        if prefs.enable_cloth:
-                            print("Adding Cloth panel")
-                            panels.append(VIEW3D_PT_Cloth_sims)
-                    
-                    break  # Found working preferences, stop searching
-                    
-            except Exception as e:
-                print(f"Failed to access {addon_id}: {str(e)}")
-                continue
+        if prefs.enable_physics:
+            print("Adding Physics panel")
+            panels.append(VIEW3D_PT_Physics_Tab_Settings)
+            if prefs.enable_rigid_body:
+                print("Adding Rigid Body panel")
+                panels.append(VIEW3D_PT_Rigid_Bodies)
+            if prefs.enable_cloth:
+                print("Adding Cloth panel")
+                panels.append(VIEW3D_PT_Cloth_sims)
                 
-    except Exception as e:
-        print(f"Error in get_panels: {str(e)}")
-        import traceback
-        traceback.print_exc()
+    except KeyError:
+        print(f"Error: Addon ID not found in preferences. Package: {__package__}")
+    except AttributeError as e:
+        print(f"Error accessing preferences: {str(e)}")
     
     print(f"Total panels to register: {len(panels)}")
     return panels
