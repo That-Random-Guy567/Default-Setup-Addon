@@ -2,18 +2,19 @@ import bpy
 
 from .preference import Default_Setup_Addon_Preferences
 from .Operators.all_operators import all_operators
-from .Panels.all_panels import register_panels, unregister_panels
+from .Panels import register_panels, unregister_panels
 
 bl_info = {
     # Basic addon info
     "name": "Default Setup Addon",
     "author": "That Random Blender Guy",
-    "version": (1, 0, 0),
+    "version": (2, 0, 0),
     "blender": (4, 0, 0),
     "description": "An addon to help setup your scene with customizable preferences and default settings",
     "location": "3D Viewport > Sidebar > Default Setup",
     "category": "Development",
-    "id": "default_setup_addon",
+    #"id": "Default_Setup_Addon",
+    "id": __package__,  # Use the package name for the ID
     
     # Support info
     "support": "TESTING",
@@ -48,32 +49,52 @@ def get_classes():
 def register():
     print("\nRegistering Default Setup Addon...")
     try:
-        # Register classes first
-        for cls in get_classes():
-            print(f"- Registering: {cls.__name__}")
-            bpy.utils.register_class(cls)
+        # Register preferences FIRST, before anything else
+        print("- Registering preferences...")
+        bpy.utils.register_class(Default_Setup_Addon_Preferences)
         
-        # Register panels after classes
+        # Register operators
+        print("- Registering operators...")
+        for operator in all_operators:
+            bpy.utils.register_class(operator)
+            
+        # Register main panel
+        print("- Registering main panel...")
+        bpy.utils.register_class(VIEW3D_PT_Default_Setup_Addon)
+        
+        # Register other panels LAST
+        print("- Registering sub-panels...")
         register_panels()
+        
         print("✓ Registration complete!\n")
     except Exception as e:
         print(f"× Registration failed: {str(e)}\n")
-        raise  # Re-raise for Blender to catch
+        raise
 
 def unregister():
     print("\nUnregistering Default Setup Addon...")
     try:
         # Unregister panels first
+        print("- Unregistering sub-panels...")
         unregister_panels()
         
-        # Then unregister classes in reverse order
-        for cls in reversed(get_classes()):
-            print(f"- Unregistering: {cls.__name__}")
-            bpy.utils.unregister_class(cls)
+        # Unregister main panel
+        print("- Unregistering main panel...")
+        bpy.utils.unregister_class(VIEW3D_PT_Default_Setup_Addon)
+        
+        # Unregister operators
+        print("- Unregistering operators...")
+        for operator in reversed(all_operators):
+            bpy.utils.unregister_class(operator)
+            
+        # Unregister preferences LAST
+        print("- Unregistering preferences...")
+        bpy.utils.unregister_class(Default_Setup_Addon_Preferences)
+        
         print("✓ Unregistration complete!\n")
     except Exception as e:
         print(f"× Unregistration failed: {str(e)}\n")
-        raise  # Re-raise for Blender to catch
+        raise
 
 if __name__ == "__main__":
     register()

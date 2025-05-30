@@ -1,24 +1,53 @@
 import bpy
 from bpy.props import BoolProperty, FloatProperty, IntProperty, StringProperty, EnumProperty
 
-            
+"""
 def update_panels(self, context):
+    #""Callback when preferences are changed""
     print("\n=== Preferences Update Called ===")
     print(f"Physics enabled: {self.enable_physics}")
     print(f"Rigid Body enabled: {self.enable_rigid_body}")
     print(f"Cloth enabled: {self.enable_cloth}")
     
-    from .Panels.all_panels import refresh_panel_list
+    # Force unregister and re-register all panels
+    from .Panels import unregister_panels, register_panels
+    
+    try:
+        # Unregister existing panels
+        unregister_panels()
+        # Register panels with new settings
+        register_panels()
+        
+        # Force UI update
+        for window in context.window_manager.windows:
+            for area in window.screen.areas:
+                if area.type == 'VIEW_3D':
+                    area.tag_redraw()
+    except Exception as e:
+        print(f"Error updating panels: {str(e)}")
+"""
+
+def update_panels(self, context):
+    """Callback when preferences are changed"""
+    print("\n=== Preferences Update Called ===")
+    print(f"Physics enabled: {self.enable_physics}")
+    print(f"Rigid Body enabled: {self.enable_rigid_body}")
+    print(f"Cloth enabled: {self.enable_cloth}")
+    
+    from .Panels import refresh_panel_list
     refresh_panel_list()
     
-    print("Forcing UI redraw...")
-    for area in context.screen.areas:
-        if area.type == 'VIEW_3D':
-            area.tag_redraw()
-    print("=== Update Complete ===\n")
+    # Force UI update
+    for window in context.window_manager.windows:
+        for area in window.screen.areas:
+            if area.type == 'VIEW_3D':
+                area.tag_redraw()
     
 class Default_Setup_Addon_Preferences(bpy.types.AddonPreferences):
-    bl_idname = "default_setup_addon"
+    #bl_idname = "Default_Setup_Addon"
+    bl_idname = __package__
+    #bl_idname = __package__.split('.')[0]
+    
 
     enable_physics: bpy.props.BoolProperty( #type: ignore
         name="Enable Physics Tab",
@@ -37,6 +66,7 @@ class Default_Setup_Addon_Preferences(bpy.types.AddonPreferences):
         default=False,
         update=update_panels
     )
+
     def draw(self, context):
         layout = self.layout
         

@@ -9,8 +9,6 @@ from .Physics_Tab import VIEW3D_PT_Rigid_Bodies
 from .Physics_Tab import VIEW3D_PT_Cloth_sims
 from .Render_Settings import VIEW3D_PT_Render_Settings
 
-all_panels = []  # ← just initialize as empty
-
 def get_panels():
     """Get list of panels based on preferences"""
     print("\n=== Getting Panels ===")
@@ -23,62 +21,48 @@ def get_panels():
     ]
     
     try:
-        prefs = bpy.context.preferences.addons["default_setup_addon"].preferences
-        print(f"Preferences loaded successfully:")
-        print(f"- Physics: {prefs.enable_physics}")
-        print(f"- Rigid Body: {prefs.enable_rigid_body}")
-        print(f"- Cloth: {prefs.enable_cloth}")
+        # Get root package name (Default_Setup_Addon)
+        root_package = __package__.split('.')[0]
+        if root_package.startswith('bl_ext.vscode_development.'):
+            root_package = root_package.replace('bl_ext.vscode_development.', '')
         
-        if prefs.enable_physics:
-            print("Adding Physics panel")
-            panels.append(VIEW3D_PT_Physics_Tab_Settings)
-            if prefs.enable_rigid_body:
-                print("Adding Rigid Body panel")
-                panels.append(VIEW3D_PT_Rigid_Bodies)
-            if prefs.enable_cloth:
-                print("Adding Cloth panel")
-                panels.append(VIEW3D_PT_Cloth_sims)
+        print(f"Looking for addon with ID: {root_package}")
+        
+        # Try both possible paths
+        for addon_id in [root_package, f"bl_ext.vscode_development.{root_package}"]:
+            try:
+                addon = bpy.context.preferences.addons.get(addon_id)
+                if addon and addon.preferences:
+                    prefs = addon.preferences
+                    print(f"Found addon preferences at: {addon_id}")
+                    
+                    print(f"Preferences loaded successfully:")
+                    print(f"- Physics: {prefs.enable_physics}")
+                    print(f"- Rigid Body: {prefs.enable_rigid_body}")
+                    print(f"- Cloth: {prefs.enable_cloth}")
+                    
+                    if prefs.enable_physics:
+                        print("Adding Physics panel")
+                        panels.append(VIEW3D_PT_Physics_Tab_Settings)
+                        
+                        if prefs.enable_rigid_body:
+                            print("Adding Rigid Body panel")
+                            panels.append(VIEW3D_PT_Rigid_Bodies)
+                            
+                        if prefs.enable_cloth:
+                            print("Adding Cloth panel")
+                            panels.append(VIEW3D_PT_Cloth_sims)
+                    
+                    break  # Found working preferences, stop searching
+                    
+            except Exception as e:
+                print(f"Failed to access {addon_id}: {str(e)}")
+                continue
                 
-    except (KeyError, AttributeError) as e:
-        print(f"Error accessing preferences: {str(e)}")
+    except Exception as e:
+        print(f"Error in get_panels: {str(e)}")
+        import traceback
+        traceback.print_exc()
     
     print(f"Total panels to register: {len(panels)}")
-    print("=== Panel Collection Complete ===\n")
     return panels
-
-def refresh_panel_list():
-    """Refresh the panel list when preferences change"""
-    print("\n=== Refreshing Panels ===")
-    try:
-        print("Unregistering existing panels...")
-        unregister_panels()
-        global all_panels
-        all_panels = get_panels()
-        print("Registering new panels...")
-        register_panels()
-        print("=== Refresh Complete ===\n")
-    except Exception as e:
-        print(f"Error during refresh: {str(e)}\n")
-
-def register_panels():
-    print("\n=== Registering Panels ===")
-    global all_panels
-    all_panels = get_panels()
-
-    for panel in all_panels:
-        try:
-            print(f"Registering: {panel.__name__}")
-            bpy.utils.register_class(panel)
-        except ValueError as e:
-            print(f"Failed to register {panel.__name__}: {str(e)}")
-    print("=== Registration Complete ===\n")
-
-def unregister_panels():
-    print("\n=== Unregistering Panels ===")
-    for panel in reversed(all_panels):
-        try:
-            print(f"Unregistering: {panel.__name__}")
-            bpy.utils.unregister_class(panel)
-        except RuntimeError as e:
-            print(f"Failed to unregister {panel.__name__}: {str(e)}")
-    print("=== Unregistration Complete ===\n")
