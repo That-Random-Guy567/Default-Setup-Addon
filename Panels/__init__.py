@@ -1,5 +1,5 @@
 import bpy
-from .all_panels_old import get_panels
+from .all_panels import get_panels
 
 # Global panel lists
 all_panels_old = []
