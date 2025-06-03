@@ -21,4 +21,3 @@ class VIEW3D_PT_Output_Settings(bpy.types.Panel):
         row = layout.row()
         row.operator("output.equal_to_exr", text="EXR Output", icon="IMAGE_DATA")
         row.operator("output.equal_to_mp4", text="MP4 Output", icon="FILE_MOVIE")
-        
