@@ -1,6 +1,6 @@
 schema_version = "1.0.0"
 id = "Default_Setup_Addon" 
-version = "1.0.0"
+version = "2.0.0"
 name = "Default Setup"
 tagline = "An addon to help setup your scene."
 maintainer = "That Random Blender Guy"

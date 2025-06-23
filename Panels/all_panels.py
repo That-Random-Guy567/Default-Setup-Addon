@@ -24,10 +24,10 @@ def get_panels():
         # Try both possible package paths
         try:
             prefs = bpy.context.preferences.addons[__package__.split('.')[0]].preferences
+            
         except KeyError:
             # Fallback for development path
-            prefs = bpy.context.preferences.addons["bl_ext.vscode_development." + __package__.split('.')[0]].preferences
-
+            prefs = bpy.context.preferences.addons[__package__].preferences
         print(f"Preferences loaded successfully:")
         print(f"- Physics: {prefs.enable_physics}")
         print(f"- Rigid Body: {prefs.enable_rigid_body}")
