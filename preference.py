@@ -16,10 +16,7 @@ def update_panels(self, context):
 
 class Default_Setup_Addon_Preferences(bpy.types.AddonPreferences):
     bl_idname = "Default_Setup_Addon"
-    #bl_idname = __package__
-    #bl_idname = __package__.split('.')[0]
     
-
     enable_physics: bpy.props.BoolProperty( #type: ignore
         name="Enable Physics Tab",
         default=False,
@@ -49,11 +46,3 @@ class Default_Setup_Addon_Preferences(bpy.types.AddonPreferences):
             sub = box_physics.box()
             sub.prop(self, "enable_cloth")
             sub.prop(self, "enable_rigid_body")
-            
-"""
-def register():
-    bpy.utils.register_class(Default_Setup_Addon_Preferences)
-    
-def unregister():
-    bpy.utils.unregister_class(Default_Setup_Addon_Preferences)
-"""

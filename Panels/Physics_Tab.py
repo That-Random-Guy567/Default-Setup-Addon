@@ -10,16 +10,14 @@ class VIEW3D_PT_Physics_Tab_Settings(bpy.types.Panel):
 
     @classmethod
     def poll(cls, context):
-        addon_id = __package__.split('.')[0]
-        prefs = context.preferences.addons[addon_id].preferences
+        prefs = context.preferences.addons["bl_ext.user_default.Default_Setup_Addon"].preferences
         return getattr(prefs, "enable_physics", False)
 
     def draw(self, context):
         layout = self.layout
         layout.label(text="Physics Tools")
 
-        addon_id = __package__.split('.')[0]
-        prefs = context.preferences.addons[addon_id].preferences
+        prefs = context.preferences.addons["bl_ext.user_default.Default_Setup_Addon"].preferences
 
         # Only show rigid body operators if enabled
         if prefs.enable_rigid_body:
@@ -59,8 +57,7 @@ class VIEW3D_PT_Rigid_Bodies(bpy.types.Panel):
 
     @classmethod
     def poll(cls, context):
-        addon_id = __package__.split('.')[0]
-        prefs = context.preferences.addons[addon_id].preferences
+        prefs = context.preferences.addons["bl_ext.user_default.Default_Setup_Addon"].preferences
         return prefs.enable_physics and prefs.enable_rigid_body
         
 class VIEW3D_PT_Cloth_sims(bpy.types.Panel):
@@ -87,6 +84,5 @@ class VIEW3D_PT_Cloth_sims(bpy.types.Panel):
 
     @classmethod
     def poll(cls, context):
-        addon_id = __package__.split('.')[0]
-        prefs = context.preferences.addons[addon_id].preferences
+        prefs = context.preferences.addons["bl_ext.user_default.Default_Setup_Addon"].preferences
         return prefs.enable_physics and prefs.enable_cloth

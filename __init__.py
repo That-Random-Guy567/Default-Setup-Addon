@@ -11,8 +11,7 @@ bl_info = {
     "description": "An addon to help setup your scene with customizable preferences and default settings",
     "location": "3D Viewport > Sidebar > Default Setup",
     "category": "Development",
-     "id": "Default_Setup_Addon",
-    #"id": __package__,  # Use the package name for the ID
+    "id": "Default_Setup_Addon",
     "support": "TESTING",
     "wiki_url": "https://github.com/That-Random-Guy567/Default-Setup-Addon",
     "tracker_url": "https://github.com/That-Random-Guy567/Default-Setup-Addon/issues",
