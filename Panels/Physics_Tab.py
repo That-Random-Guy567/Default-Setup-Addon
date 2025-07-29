@@ -18,7 +18,7 @@ class VIEW3D_PT_Physics_Tab_Settings(bpy.types.Panel):
         layout.label(text="Physics Tools")
 
         prefs = context.preferences.addons["bl_ext.user_default.Default_Setup_Addon"].preferences
-
+        
         # Only show rigid body operators if enabled
         if prefs.enable_rigid_body:
             box = layout.box()
