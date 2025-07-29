@@ -1,5 +1,4 @@
 import bpy
-
 from .preference import Default_Setup_Addon_Preferences
 from .Operators.all_operators import all_operators
 from .Panels import register_panels, unregister_panels
@@ -12,8 +11,8 @@ bl_info = {
     "description": "An addon to help setup your scene with customizable preferences and default settings",
     "location": "3D Viewport > Sidebar > Default Setup",
     "category": "Development",
-    # "id": "Default_Setup_Addon",
-    "id": __package__,  # Use the package name for the ID
+     "id": "Default_Setup_Addon",
+    #"id": __package__,  # Use the package name for the ID
     "support": "TESTING",
     "wiki_url": "https://github.com/That-Random-Guy567/Default-Setup-Addon",
     "tracker_url": "https://github.com/That-Random-Guy567/Default-Setup-Addon/issues",

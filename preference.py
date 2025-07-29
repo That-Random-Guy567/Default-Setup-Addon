@@ -15,8 +15,8 @@ def update_panels(self, context):
                 area.tag_redraw()
 
 class Default_Setup_Addon_Preferences(bpy.types.AddonPreferences):
-    #bl_idname = "Default_Setup_Addon"
-    bl_idname = __package__
+    bl_idname = "Default_Setup_Addon"
+    #bl_idname = __package__
     #bl_idname = __package__.split('.')[0]
     
 
