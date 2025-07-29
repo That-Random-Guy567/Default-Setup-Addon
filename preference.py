@@ -15,7 +15,7 @@ def update_panels(self, context):
                 area.tag_redraw()
 
 class Default_Setup_Addon_Preferences(bpy.types.AddonPreferences):
-    bl_idname = "Default_Setup_Addon"
+    bl_idname = "bl_ext.user_default.Default_Setup_Addon"
     
     enable_physics: bpy.props.BoolProperty( #type: ignore
         name="Enable Physics Tab",
