@@ -2,6 +2,7 @@ import bpy
 from .preference import Default_Setup_Addon_Preferences
 from .Operators.all_operators import all_operators
 from .Panels import register_panels, unregister_panels
+from .Panels.Physics_Tab import VIEW3D_PT_Rigid_Bodies, VIEW3D_PT_Cloth_sims
 
 bl_info = {
     "name": "Default Setup Addon",
