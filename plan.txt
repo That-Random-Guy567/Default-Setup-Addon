@@ -2,6 +2,7 @@
 Have addon be customizable with Functions
 - save the custom features to a local file on disk
 - have output save to local dir in folder named "frames"
+- maybe have all panels on/off in preferences
 
 Default Setup
     - Render
