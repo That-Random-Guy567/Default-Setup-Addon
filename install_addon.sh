@@ -3,9 +3,9 @@
 #!/bin/bash
 
 # Configuration
-BLENDER_VERSION="4.4"
+BLENDER_VERSION="4.5"
 ADDON_NAME="Default_Setup_Addon"
-BLENDER_APP="/Applications/Blender 4.4.1.app"
+BLENDER_APP="/Applications/Blender 4.5 LTS.app"
 BLENDER_EXEC="$BLENDER_APP/Contents/MacOS/blender"
 BLENDER_PATH="$HOME/Library/Application Support/Blender/${BLENDER_VERSION}"
 # Updated path to use extensions/user_default instead of scripts/addons
