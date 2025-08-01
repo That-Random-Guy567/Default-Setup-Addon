@@ -11,10 +11,10 @@ panel_classes = [
     VIEW3D_PT_Output_Settings,
     VIEW3D_PT_File_Sharing,
     VIEW3D_PT_Physics_Tab,
+    VIEW3D_PT_Cloth_sims,
+    VIEW3D_PT_Rigid_Bodies,
     VIEW3D_PT_Object_Constraints,
     VIEW3D_PT_Misc,
-    VIEW3D_PT_Rigid_Bodies,
-    VIEW3D_PT_Cloth_sims,
 ]
 
 def register_panels():

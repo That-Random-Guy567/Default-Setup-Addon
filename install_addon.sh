@@ -1,6 +1,5 @@
-# run script with ./install_addon.sh
-
 #!/bin/bash
+# filepath: /Users/TRBG/Blender/Add-ons/Default_Setup_Addon/install_addon.sh
 
 # Configuration
 BLENDER_VERSION="4.5"
@@ -8,7 +7,6 @@ ADDON_NAME="Default_Setup_Addon"
 BLENDER_APP="/Applications/Blender 4.5 LTS.app"
 BLENDER_EXEC="$BLENDER_APP/Contents/MacOS/blender"
 BLENDER_PATH="$HOME/Library/Application Support/Blender/${BLENDER_VERSION}"
-# Updated path to use extensions/user_default instead of scripts/addons
 EXTENSION_PATH="${BLENDER_PATH}/extensions/user_default/${ADDON_NAME}"
 ZIP_PATH="./${ADDON_NAME}.zip"
 
@@ -18,18 +16,22 @@ if [ ! -f "$BLENDER_EXEC" ]; then
     exit 1
 fi
 
-# Print current configuration
 echo "=== Addon Installation Script ==="
 echo "Blender Version: $BLENDER_VERSION"
 echo "Addon Name: $ADDON_NAME"
 echo "Blender Path: $BLENDER_EXEC"
 echo "Target Path: $EXTENSION_PATH"
 
-# Clean up old installation
+# Safety check before deleting old installation
 if [ -d "$EXTENSION_PATH" ]; then
-    echo -e "\nRemoving existing installation..."
-    rm -rf "$EXTENSION_PATH"
-    echo "Addon removed successfully!"
+    read -p "Delete existing addon at $EXTENSION_PATH? (y/n): " confirm
+    if [[ $confirm =~ ^[Yy]$ ]]; then
+        rm -rf "$EXTENSION_PATH"
+        echo "Addon removed successfully!"
+    else
+        echo "Skipping deletion. Exiting."
+        exit 0
+    fi
 else
     echo -e "\nNo existing installation found."
 fi
@@ -38,27 +40,21 @@ fi
 TEMP_DIR="./temp_build"
 echo -e "\nPreparing files..."
 
-# Clean up any existing temp directory
 if [ -d "$TEMP_DIR" ]; then
     rm -rf "$TEMP_DIR"
 fi
-
-# Create temp directory
 mkdir -p "$TEMP_DIR"
 
-# Copy files maintaining structure
 cp *.py "$TEMP_DIR/"
 cp -r Operators "$TEMP_DIR/"
 cp -r Panels "$TEMP_DIR/"
 [ -f "blender_manifest.toml" ] && cp blender_manifest.toml "$TEMP_DIR/"
 
-# Create zip file
 echo -e "\nCreating zip file..."
 if [ -f "$ZIP_PATH" ]; then
     rm "$ZIP_PATH"
 fi
 
-# Create zip and handle errors
 if cd "$TEMP_DIR" && zip -r "../$ADDON_NAME.zip" *; then
     cd ..
     echo "Zip file created at: $(pwd)/${ADDON_NAME}.zip"
@@ -69,10 +65,8 @@ else
     exit 1
 fi
 
-# Clean up temp directory
 rm -rf "$TEMP_DIR"
 
-# Install addon directly
 echo -e "\nInstalling addon..."
 mkdir -p "$EXTENSION_PATH"
 unzip -q "$ZIP_PATH" -d "$EXTENSION_PATH"
@@ -86,7 +80,6 @@ fi
 
 echo -e "\n=== Installation Complete ==="
 
-# Ask for confirmation before launching Blender
 read -p $'\nDo you want to launch Blender? (y/n): ' launch
 if [[ $launch =~ ^[Yy]$ ]]; then
     echo "Launching Blender..."
